@@ -37,7 +37,9 @@ class ViewController: UIViewController, QRCodeReaderViewControllerDelegate {
   lazy var readerVC: QRCodeReaderViewController = {
     let builder = QRCodeReaderViewControllerBuilder {
       $0.reader                  = QRCodeReader(metadataObjectTypes: [.qr], captureDevicePosition: .back)
-      $0.showTorchButton         = true
+      $0.showTorchButton         = false
+      $0.showSwitchCameraButton         = false
+
       $0.preferredStatusBarStyle = .lightContent
       
       $0.reader.stopScanningWhenCodeIsFound = false
