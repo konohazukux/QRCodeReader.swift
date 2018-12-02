@@ -71,6 +71,16 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     return ttb
   }()
 
+  public lazy var descriptionLabel: UILabel? = {
+    let descriptionLabel = UILabel()
+    descriptionLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+    descriptionLabel.text = "Eチケットの2次元バーコードを\nスキャンしてください"
+    descriptionLabel.textColor = UIColor.white
+    descriptionLabel.numberOfLines = 2
+    descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+    return descriptionLabel
+  }()
+
   private weak var reader: QRCodeReader?
 
   public func setupComponents(showCancelButton: Bool, showSwitchCameraButton: Bool, showTorchButton: Bool, showOverlayView: Bool, reader: QRCodeReader?) {
@@ -84,12 +94,17 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     toggleTorchButton?.isHidden  = !showTorchButton
     overlayView?.isHidden        = !showOverlayView
 
-    guard let cb = cancelButton, let scb = switchCameraButton, let ttb = toggleTorchButton, let ov = overlayView else { return }
+    guard let cb = cancelButton, let scb = switchCameraButton, let ttb = toggleTorchButton, let ov = overlayView, let dl = descriptionLabel else { return }
 
-    let views = ["cv": cameraView, "ov": ov, "cb": cb, "scb": scb, "ttb": ttb]
+    let views = ["cv": cameraView, "ov": ov, "cb": cb, "scb": scb, "ttb": ttb, "dl": dl]
 
     addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[cv]|", options: [], metrics: nil, views: views))
     addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[cv]|", options: [], metrics: nil, views: views))
+
+    // description label
+    dl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+    dl.heightAnchor.constraint(greaterThanOrEqualToConstant: 10).isActive = true
+    addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[dl(>=10)]-50-|", options: [], metrics: nil, views: views))
 
     if showCancelButton {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[cb]", options: [], metrics: nil, views: views))
@@ -172,6 +187,9 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     NotificationCenter.default.addObserver(self, selector: #selector(self.setNeedsUpdateOrientation), name: notificationName, object: nil)
 
     addSubview(cameraView)
+    if let dl = descriptionLabel {
+        addSubview(dl)
+    }
 
     if let ov = overlayView {
       addSubview(ov)
