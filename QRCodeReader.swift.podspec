@@ -7,10 +7,10 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/yannickl/QRCodeReader.swift.git'
   s.social_media_url = 'https://twitter.com/yannickloriot'
   s.authors          = { 'Yannick Loriot' => 'contact@yannickloriot.com' }
-  s.source           = { :git => 'https://github.com/yannickl/QRCodeReader.swift.git', :tag => s.version }
+  s.source           = { :git => 'https://github.com/konohazukux/QRCodeReader.swift.git', :branch => 'local_releas' }
   s.screenshot       = 'http://yannickloriot.com/resources/qrcodereader.swift-screenshot.jpg'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.framework    = 'AVFoundation'
   s.source_files = 'Sources/*.swift'
